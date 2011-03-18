@@ -10,3 +10,10 @@ Redmine::Plugin.register :chiliproject_status_change_email do
 
   menu(:admin_menu, :status_change_emails, {:controller => 'status_change_emails', :action => 'index'}, :caption => :status_change_email_title)
 end
+
+require 'dispatcher'
+Dispatcher.to_prepare :chiliproject_status_change_email do
+
+  require_dependency 'issue_status'
+  IssueStatus.send(:include, ChiliprojectStatusChangeEmail::Patches::IssueStatusPatch)
+end

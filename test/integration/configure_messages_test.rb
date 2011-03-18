@@ -59,7 +59,54 @@ class ConfigureMessagesTest < ActionController::IntegrationTest
       assert find("table#status-change-emails th", :text => 'Extra content')
     end
 
-    should "save the values to the Status Change record"
+    should "save the values to the Status Change record" do
+      within("#status-#{@new_status.id}") do
+        check("status-#{@new_status.id}-author")
+        check("status-#{@new_status.id}-watcher")
+        check("status-#{@new_status.id}-assigned_to")
+        fill_in("status-#{@new_status.id}-extra-content", :with => 'New status')
+      end
+
+      within("#status-#{@finished_status.id}") do
+        uncheck("status-#{@finished_status.id}-author")
+        uncheck("status-#{@finished_status.id}-watcher")
+        uncheck("status-#{@finished_status.id}-assigned_to")
+        fill_in("status-#{@finished_status.id}-extra-content", :with => 'Finished status')
+      end
+
+      within("#status-#{@closed_status.id}") do
+        check("status-#{@closed_status.id}-author")
+        uncheck("status-#{@closed_status.id}-watcher")
+        uncheck("status-#{@closed_status.id}-assigned_to")
+        fill_in("status-#{@closed_status.id}-extra-content", :with => 'Closed status')
+      end
+
+      click_button 'Save'
+      assert_response :success
+
+      @new_status.reload
+      assert @new_status.issue_status_change
+      assert @new_status.issue_status_change.author?
+      assert @new_status.issue_status_change.watcher?
+      assert @new_status.issue_status_change.assigned_to?
+      assert_equal "New status", @new_status.issue_status_change.extra_content
+
+      @finished_status.reload
+      assert @finished_status.issue_status_change
+      assert !@finished_status.issue_status_change.author?
+      assert !@finished_status.issue_status_change.watcher?
+      assert !@finished_status.issue_status_change.assigned_to?
+      assert_equal "Finished status", @finished_status.issue_status_change.extra_content
+
+      @closed_status.reload
+      assert @closed_status.issue_status_change
+      assert @closed_status.issue_status_change.author?
+      assert !@closed_status.issue_status_change.watcher?
+      assert !@closed_status.issue_status_change.assigned_to?
+      assert_equal "Closed status", @closed_status.issue_status_change.extra_content
+
+    end
+    
   end
   
 end

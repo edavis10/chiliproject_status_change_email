@@ -1,5 +1,7 @@
 <h1><%= l(:status_change_email_title) %></h1>
 
+<% form_tag({:action => 'update'}) do -%>
+
 <table id="status-change-emails" class="list">
   <thead>
     <tr>
@@ -14,14 +16,27 @@
     <% @issue_statuses.each do |status| %>
       <tr id="status-<%= h(status.id) %>" class="<%= cycle("odd","even") %>">
         <td><%= h(status.name) %></td>
-        <td align="center">X</td>
-        <td align="center">X</td>
-        <td align="center">X</td>
-        <td>CONTENT</td>
+        <td align="center">
+          <%= check_box_tag("status-#{status.id}-author", "1", status.issue_status_change.try(:author)) %>
+        </td>
+        <td align="center">
+          <%= check_box_tag("status-#{status.id}-watcher", "1", status.issue_status_change.try(:watcher)) %>
+        </td>
+        <td align="center">
+          <%= check_box_tag("status-#{status.id}-assigned_to", "1", status.issue_status_change.try(:assigned_to)) %>
+        </td>
+        <td width="50%">
+          <%= text_area_tag("status-#{status.id}-extra-content", status.issue_status_change.try(:extra_content), :cols => 80, :rows => 5) %>
+          <%= wikitoolbar_for("status-#{status.id}-extra-content") %>
+        </td>
       </tr>
       
     <% end %>
   </tbody>
 </table>
+
+<%= submit_tag l(:button_save) -%>
+
+<% end %>
 
 <% html_title(l(:status_change_email_title)) %>
