@@ -17,17 +17,17 @@
       <tr id="status-<%= h(status.id) %>" class="<%= cycle("odd","even") %>">
         <td><%= h(status.name) %></td>
         <td align="center">
-          <%= check_box_tag("status-#{status.id}-author", "1", status.issue_status_change.try(:author)) %>
+          <%= check_box_tag("status-#{status.id}[author]", "1", status.issue_status_change.try(:author)) %>
         </td>
         <td align="center">
-          <%= check_box_tag("status-#{status.id}-watcher", "1", status.issue_status_change.try(:watcher)) %>
+          <%= check_box_tag("status-#{status.id}[watcher]", "1", status.issue_status_change.try(:watcher)) %>
         </td>
         <td align="center">
-          <%= check_box_tag("status-#{status.id}-assigned_to", "1", status.issue_status_change.try(:assigned_to)) %>
+          <%= check_box_tag("status-#{status.id}[assigned_to]", "1", status.issue_status_change.try(:assigned_to)) %>
         </td>
         <td width="50%">
-          <%= text_area_tag("status-#{status.id}-extra-content", status.issue_status_change.try(:extra_content), :cols => 80, :rows => 5) %>
-          <%= wikitoolbar_for("status-#{status.id}-extra-content") %>
+          <%= text_area_tag("status-#{status.id}[extra_content]", status.issue_status_change.try(:extra_content), :cols => 80, :rows => 5) %>
+          <%= wikitoolbar_for("status-#{status.id}_extra_content") %>
         </td>
       </tr>
       

@@ -61,24 +61,24 @@ class ConfigureMessagesTest < ActionController::IntegrationTest
 
     should "save the values to the Status Change record" do
       within("#status-#{@new_status.id}") do
-        check("status-#{@new_status.id}-author")
-        check("status-#{@new_status.id}-watcher")
-        check("status-#{@new_status.id}-assigned_to")
-        fill_in("status-#{@new_status.id}-extra-content", :with => 'New status')
+        check("status-#{@new_status.id}_author")
+        check("status-#{@new_status.id}_watcher")
+        check("status-#{@new_status.id}_assigned_to")
+        fill_in("status-#{@new_status.id}_extra_content", :with => 'New status')
       end
 
       within("#status-#{@finished_status.id}") do
-        uncheck("status-#{@finished_status.id}-author")
-        uncheck("status-#{@finished_status.id}-watcher")
-        uncheck("status-#{@finished_status.id}-assigned_to")
-        fill_in("status-#{@finished_status.id}-extra-content", :with => 'Finished status')
+        uncheck("status-#{@finished_status.id}_author")
+        uncheck("status-#{@finished_status.id}_watcher")
+        uncheck("status-#{@finished_status.id}_assigned_to")
+        fill_in("status-#{@finished_status.id}_extra_content", :with => 'Finished status')
       end
 
       within("#status-#{@closed_status.id}") do
-        check("status-#{@closed_status.id}-author")
-        uncheck("status-#{@closed_status.id}-watcher")
-        uncheck("status-#{@closed_status.id}-assigned_to")
-        fill_in("status-#{@closed_status.id}-extra-content", :with => 'Closed status')
+        check("status-#{@closed_status.id}_author")
+        uncheck("status-#{@closed_status.id}_watcher")
+        uncheck("status-#{@closed_status.id}_assigned_to")
+        fill_in("status-#{@closed_status.id}_extra_content", :with => 'Closed status')
       end
 
       click_button 'Save'
