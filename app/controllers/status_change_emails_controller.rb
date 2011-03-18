@@ -3,6 +3,6 @@ class StatusChangeEmailsController < ApplicationController
   before_filter :require_admin
 
   def index
-    render :text => 'Welcome'
+    @issue_statuses = IssueStatus.all(:order => 'position ASC')
   end
 end

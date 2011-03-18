@@ -26,11 +26,39 @@ class ConfigureMessagesTest < ActionController::IntegrationTest
   end
   
   context "configuring statuses" do
-    should "have a matrix of statuses as rows"
-    should "have an author column"
-    should "have a watcher column"
-    should "have an assigned to column"
-    should "have a content column"
+    setup do
+      @new_status = IssueStatus.generate!(:name => "New")
+      @finished_status = IssueStatus.generate!(:name => "Finished")
+      @closed_status = IssueStatus.generate!(:name => "Closed")
+
+      login_as(@user.login, 'test')
+      visit_status_change_email_admin_panel
+    end
+    
+    should "have a matrix of statuses as rows" do
+      assert find("table#status-change-emails")
+      assert find("table#status-change-emails tr#status-#{@new_status.id}")
+      assert find("table#status-change-emails tr#status-#{@finished_status.id}")
+      assert find("table#status-change-emails tr#status-#{@closed_status.id}")
+
+    end
+    
+    should "have an author column" do
+      assert find("table#status-change-emails th", :text => 'Author')
+    end
+    
+    should "have a watcher column" do
+      assert find("table#status-change-emails th", :text => 'Watcher')
+    end
+
+    should "have an assigned to column" do
+      assert find("table#status-change-emails th", :text => 'Assignee')
+    end
+
+    should "have a content column" do
+      assert find("table#status-change-emails th", :text => 'Extra content')
+    end
+
     should "save the values to the Status Change record"
   end
   

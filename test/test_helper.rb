@@ -76,9 +76,21 @@ module ChiliProjectIntegrationTestHelper
 
 end
 
+module ChiliProjectStatusChangeEmailIntegrationTestHelper
+  def visit_status_change_email_admin_panel
+    visit_home
+    click_link 'Administration'
+    assert_response :success
+
+    click_link 'Status Change Email'
+    assert_response :success
+  end
+  
+end
+
 class ActionController::IntegrationTest
   include ChiliProjectIntegrationTestHelper
-  
+  include ChiliProjectStatusChangeEmailIntegrationTestHelper
   include Capybara
   
 end
