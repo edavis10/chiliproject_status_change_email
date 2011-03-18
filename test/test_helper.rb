@@ -14,18 +14,24 @@ end
 
 module ChiliProjectIntegrationTestHelper
   def login_as(user="existing", password="existing")
+    visit "/logout" # Make sure the session is cleared
+    
     visit "/login"
     fill_in 'Login', :with => user
     fill_in 'Password', :with => password
-    click_button 'login'
+    click_button 'Login'
     assert_response :success
     assert User.current.logged?
   end
 
-  def visit_project(project)
+  def visit_home
     visit '/'
     assert_response :success
+  end
 
+  def visit_project(project)
+    visit_home
+    
     click_link 'Projects'
     assert_response :success
 
@@ -49,6 +55,8 @@ module ChiliProjectIntegrationTestHelper
     converted_code = case code
                      when :success
                        200
+                     when :forbidden
+                       403
                      when :missing
                        404
                      when :redirect

@@ -1,3 +1,2 @@
-# English strings go here for Rails i18n
 en:
-  my_label: "My label"
+  status_change_email_title: "Status Change Email"
