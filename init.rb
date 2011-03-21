@@ -17,3 +17,5 @@ Dispatcher.to_prepare :chiliproject_status_change_email do
   require_dependency 'issue_status'
   IssueStatus.send(:include, ChiliprojectStatusChangeEmail::Patches::IssueStatusPatch)
 end
+
+require 'chiliproject_status_change_email/hooks/view_layouts_mailer_hook'
