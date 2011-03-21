@@ -2,6 +2,7 @@ require 'test_helper'
 
 class MailNotificationsTest < ActionController::IntegrationTest
   def setup
+    ActionMailer::Base.deliveries.clear
     @status = IssueStatus.generate!(:name => "New")
     @project = Project.generate!
 
@@ -37,9 +38,9 @@ class MailNotificationsTest < ActionController::IntegrationTest
     context "to a user who gets the additional content" do
       context "with status change content" do
         setup do
-          IssueStatusChange.generate!(:issue_status => @status,
-                                      :extra_content => '_This is extra content_',
-                                      :author => true)
+          @issue_status_change = IssueStatusChange.generate!(:issue_status => @status,
+                                                             :extra_content => '_This is extra content_',
+                                                             :author => true)
         end
 
         should "include the content in the plain text email" do
@@ -56,6 +57,18 @@ class MailNotificationsTest < ActionController::IntegrationTest
           assert_sent_email do |email|
             email.to.include?(@author.mail) &&
               email.body.match('<em>This is extra content</em>')
+          end
+          
+        end
+
+        should "allow full textile in the extra_content without throwing errors" do
+          @issue_status_change.extra_content = 'h3. A Header which triggers strip_tags'
+          @issue_status_change.save
+
+          edit_issue
+          assert_sent_email do |email|
+            email.to.include?(@author.mail) &&
+              email.body.match('h3. A Header which triggers strip_tags') # Can't test the HTML version easily
           end
           
         end

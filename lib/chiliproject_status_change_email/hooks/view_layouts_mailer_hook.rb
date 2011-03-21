@@ -3,6 +3,9 @@ module ChiliProjectStatusChangeEmail
     # Hooks into the email layout to add question content
     class ViewLayoutsMailerHook < Redmine::Hook::ViewListener
 
+      include ActionView::Helpers::SanitizeHelper
+      extend ActionView::Helpers::SanitizeHelper::ClassMethods
+      
       def view_layouts_mailer_html_before_content(context={})
         render_response_string(context, :html)
       end
