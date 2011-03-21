@@ -1,25 +1,25 @@
 = Status Change Email
 
-ChiliProject plugin that adds custom messages to email when issue statuses are changed
+Plugin that adds custom messages to email based on the issue statuses.
 
 == Features
 
-TODO: fill in features
+* Administration panel to configure which issue statuses get which content
+* Full wiki-formatted content included into email templates
+* Options to configure who should get the extra content: Author, Watcher, Assignee
 
 == Getting the plugin
 
 A copy of the plugin can be downloaded from {Little Stream Software}[https://projects.littlestreamsoftware.com/projects/chiliproject_status_change_email/files] or from {GitHub}[http://github.com/edavis10/chiliproject_status_change_email]
 
-
 == Installation and Setup
 
-1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins 
-2. Run the plugin migrations +rake db:migrate_plugins+
-3. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+1. Follow the plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins 
+2. Restart your web servers (e.g. mongrel, thin, mod_rails)
 
 == Usage
 
-TODO: Add usage
+Configure the extra messages in the Administration panel (Administration > Status Change Email). Then when issues are created or edited, the extra content will be added to the email template for the different users.
 
 == License
 
